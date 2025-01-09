@@ -1,7 +1,30 @@
+#' Compute measures of functional redundancy and functional interdependency based on relative entropy
+#'
+#' @param abundance A vector of abundances for each species, every abundance needs to be greater than zero.
+#' @param functions The paired vector of functions for the abundance vector. Needs to be the same size as the abundance vector.
+#'                  The i-th component of \code{functions} corresponds to the i-th abundance of the species, encoded in the abundance vector.
+#'                  Gets normalized, such that the components sum up to 1 and its components correspond to relative frequencies. Might contain zeros.
+#' @param n_reference Optional value to compute reference-based redundancy. It is an integer value of the number of species in the reference
+#'                    that can perform the function.
+#'
+#' @return A list containing:
+#' \itemize{
+#'   \item \code{sample_based}: A coefficient corresponding to taxon sample-based redundancy.
+#'   \item \code{reference_based}: A coefficient corresponding to taxon reference-based redundancy (optional, if \code{n_reference} is set).
+#'   \item \code{abundance_based}: A coefficient corresponding to abundance-based redundancy.
+#'   \item \code{interdependency}: Interdependency measure.
+#' }
+#'
+#' @examples
+#' abundance <- c(0.2, 0.1, 0.05, 0.05, 0.6)
+#' functions <- c(0.8, 0.1, 0.05, 0.05, 0)
+#' n_reference <- 8
+#' fredundancy(functions = functions, abundance = abundance, n_reference = NULL)
+#'
 #' @importFrom philentropy KL
+#' @export
 
-
-fredundancy <- function(functions, abundance, n_reference = NULL) {  # n_reference is optional
+fredundancy <- function(abundance, functions, n_reference = NULL) {  # n_reference is optional
 
   # Normalize function vector if the sum is not 1
   normalize_vector <- function(x) {
@@ -11,10 +34,12 @@ fredundancy <- function(functions, abundance, n_reference = NULL) {  # n_referen
     return(x)
   }
 
+  # Remove zeros
+  abundance <- abundance[abundance > 0]
   # Validate that abundance sums to 1
   validate_abundance <- function(abundance) {
     if (sum(abundance) != 1) {
-      stop("Error: Abundances do not sum up to 1.")
+      stop("Error: Abundances do not sum up to 1")
     }
   }
 
