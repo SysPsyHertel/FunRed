@@ -1,4 +1,4 @@
-# Function
+#' @importFrom philentropy KL
 
 
 fredundancy <- function(functions, abundance, n_reference = NULL) {  # n_reference is optional
