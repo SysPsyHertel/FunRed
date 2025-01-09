@@ -2,9 +2,9 @@ Package: FunRed
 Title: Computes measures of functional redundancy
 Version: 0.0.0.9000
 Authors@R: 
-    person("Daniel", "Faessler", , "daniel.faessler@uni-greifswald.de", role = c("aut", "cre");
+    person("Daniel", "Faessler", , "daniel.faessler@uni-greifswald.de", role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-8295-5390"))
-Description: The package provides a function for computing measures of functional redundancy and functional interdependency based on relative entropy
+Description: The package provides a function for computing measures of functional redundancy and functional interdependency based on relative entropy.
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
