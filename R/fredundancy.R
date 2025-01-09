@@ -18,8 +18,8 @@
 #' @examples
 #' abundance <- c(0.2, 0.1, 0.05, 0.05, 0.6)
 #' functions <- c(0.8, 0.1, 0.05, 0.05, 0)
-#' n_reference <- 8
-#' fredundancy(functions = functions, abundance = abundance, n_reference = NULL)
+#' n_reference <- 7
+#' fredundancy(abundance = abundance, functions = functions, n_reference = NULL)
 #'
 #' @importFrom philentropy KL
 #' @export
@@ -36,6 +36,7 @@ fredundancy <- function(abundance, functions, n_reference = NULL) {  # n_referen
 
   # Remove zeros
   abundance <- abundance[abundance > 0]
+
   # Validate that abundance sums to 1
   validate_abundance <- function(abundance) {
     if (sum(abundance) != 1) {
@@ -81,21 +82,22 @@ fredundancy <- function(abundance, functions, n_reference = NULL) {  # n_referen
   abundance_based <- calculate_kl_divergence(x_abundance)
 
   # Interdependency
-  abundance_I <- abundance[functions_gz > 0]
+  # Consider only abundances that have a function and normalize it that they sum up to 1
+  abundance_I <- abundance[functions > 0]
+  abundance_I <- abundance_I/sum(abundance_I)
   x_interdependency <- rbind(functions_gz, abundance_I)
   interdependency <- calculate_kl_divergence(x_interdependency, negative = FALSE)
 
-  # Return results as a list
+  # Return results in the specified order
   result <- list(
     sample_based = sample_based,
+    reference_based = reference_based,  # Will be NULL if not calculated
     abundance_based = abundance_based,
     interdependency = interdependency
   )
 
-  # Add reference_based to the results if it was calculated
-  if (!is.null(reference_based)) {
-    result$reference_based <- reference_based
-  }
+  # Remove reference_based if it was not calculated (NULL)
+  result <- result[!sapply(result, is.null)]
 
   return(result)
 }
