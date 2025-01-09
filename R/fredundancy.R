@@ -67,8 +67,8 @@ fredundancy <- function(abundance, functions, n_reference = NULL) {  # n_referen
   reference_based <- NULL
 
   # Only calculate reference-based redundancy if n_reference is provided
+  functions_gz <- functions[functions > 0]  # Only functions > 0
   if (!is.null(n_reference)) {
-    functions_gz <- functions[functions > 0]  # Only functions > 0
     zero_f <- rep(0, n_reference - length(functions_gz))  # Pad with zeros
     functions_reference <- c(functions_gz, zero_f)
     a_uniform_reference <- rep(1 / n_reference, n_reference)
