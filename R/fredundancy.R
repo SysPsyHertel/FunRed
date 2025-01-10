@@ -38,9 +38,9 @@ fredundancy <- function(abundance, functions, n_reference = NULL) {  # n_referen
   abundance <- abundance[abundance > 0]
 
   # Validate that abundance sums to 1
-  validate_abundance <- function(abundance) {
-    if (sum(abundance) != 1) {
-      stop("Error: Abundances do not sum up to 1")
+  validate_abundance <- function(abundance, tolerance = 1e-6) {
+    if (abs(sum(abundance) - 1) > tolerance) {
+      stop("Error: Abundances do not sum up to 1 within the allowed tolerance!")
     }
   }
 
