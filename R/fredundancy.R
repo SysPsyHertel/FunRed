@@ -34,8 +34,6 @@ fredundancy <- function(abundance, functions, n_reference = NULL) {  # n_referen
     return(x)
   }
 
-  # Remove zeros
-  abundance <- abundance[abundance > 0]
 
   # Validate that abundance sums to 1
   validate_abundance <- function(abundance, tolerance = 1e-6) {
