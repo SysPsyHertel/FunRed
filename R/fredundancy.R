@@ -1,6 +1,6 @@
 #' Compute measures of functional redundancy and functional interdependency based on relative entropy
 #'
-#' @param abundance A vector of abundances for each species, every abundance needs to be greater than zero.
+#' @param abundance A vector of non-zero abundances, corresponding to each species in the community.
 #' @param functions The paired vector of functions for the abundance vector. Needs to be the same size as the abundance vector.
 #'                  The i-th component of \code{functions} corresponds to the i-th abundance of the species, encoded in the abundance vector.
 #'                  Gets normalized, such that the components sum up to 1 and its components correspond to relative frequencies. Might contain zeros.
@@ -19,7 +19,7 @@
 #' functions <- c(0.8, 0.1, 0.05, 0.05, 0)
 #' abundance <- c(0.2, 0.1, 0.05, 0.05, 0.6)
 #' n_reference <- 7
-#' fredundancy(abundance = abundance, functions = functions, n_reference = NULL)
+#' fredundancy(functions, abundance, n_reference)
 #'
 #' @importFrom philentropy KL
 #' @export

@@ -19,7 +19,7 @@ devtools::install_github("faesslerd/FunRed")
 
 ## Functions
 
-### fredundancy(abundance, functions, n_reference)
+### 1. fredundancy(abundance, functions, n_reference)
 
 Compute measures of functional redundancy and functional interdependency.
 
