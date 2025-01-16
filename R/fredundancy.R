@@ -16,15 +16,15 @@
 #' }
 #'
 #' @examples
-#' abundance <- c(0.2, 0.1, 0.05, 0.05, 0.6)
 #' functions <- c(0.8, 0.1, 0.05, 0.05, 0)
+#' abundance <- c(0.2, 0.1, 0.05, 0.05, 0.6)
 #' n_reference <- 7
 #' fredundancy(abundance = abundance, functions = functions, n_reference = NULL)
 #'
 #' @importFrom philentropy KL
 #' @export
 
-fredundancy <- function(abundance, functions, n_reference = NULL) {  # n_reference is optional
+fredundancy <- function(functions, abundance, n_reference = NULL) {  # n_reference is optional
 
   # Normalize function vector if the sum is not 1
   normalize_vector <- function(x) {
