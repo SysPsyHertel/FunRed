@@ -1,7 +1,7 @@
 # FunRed
 
 
-R package for computing functional redundancy and functional interdependency measures for a single trait using relative entropy.  
+**R package** for computing **functional redundancy** and **functional interdependency** measures for a single trait using relative entropy.  
   
 Relative Entropy or the Kullback-Leibler divergence is calculated using the [`philentropy`](https://cran.r-project.org/package=philentropy) package.
 
@@ -11,13 +11,17 @@ Relative Entropy or the Kullback-Leibler divergence is calculated using the [`ph
 You can install this package from GitHub using the `devtools` package:
 
 ```R
-# Install the devtools package if not already installed
+# Install required dependencies first
+install.packages("philentropy")
+
+# Install devtools if not already installed
 if (!requireNamespace("devtools", quietly = TRUE)) {
   install.packages("devtools")
 }
 
-# Install the package
+# Install FunRed package from GitHub
 devtools::install_github("SysPsyHertel/FunRed")
+
 ```
 
 ## Functions
@@ -26,25 +30,39 @@ devtools::install_github("SysPsyHertel/FunRed")
 
 Compute measures of functional redundancy and functional interdependency.
 
-#### Arguments
+#### **Arguments**
 - `abundance`: A vector of non-zero abundances, corresponding to each species in the community.
 - `functions`: The paired vector of functions of the abundance vector. Needs to be the same length as the abundance vector.
-- `n_reference`: Integer value, corresponding to of the number of species in the reference that can perform the function (Optional).
+- `n_reference`: Integer value, corresponding to the number of species in the reference that can perform the function (optional).
 
 
-#### Returns
+#### **Returns**
 - `sample_based`: A coefficient corresponding to taxon sample-based functional redundancy.
 - `reference_based`: A coefficient corresponding to taxon reference-based functional (optional, if n_reference is set).
 - `abundance_based`: A coefficient corresponding to abundance-based functional redundancy.
 - `interdependency`: A coefficient corresponding to functional interdependency.
 
-### Toy Example
+#### **Example Usage**
+
+```R
+# Assuming 'functions' and 'abundance' are defined:
+result <- fredundancy(functions, abundance, n_reference = 7)
+```
+### Toy Example and description
+
+Below is a toy example to demonstrate how the `fredundancy` function works.
 
 ```R
 functions <- c(0.8, 0.1, 0.05, 0.05, 0)
 abundance <- c(0.2, 0.1, 0.05, 0.05, 0.6)
 n_reference <- 7
-> fredundancy(functions, abundance, n_reference)
+
+result <- fredundancy(functions, abundance, n_reference)
+print(result)
+```
+**Output:**
+
+```R
 $sample_based
 [1] -0.9010913
 
@@ -58,7 +76,7 @@ $interdependency
 [1] 0.1927448
 
 ```
-#### Description
+#### **Description**
 Note that, except when computing functional interdependency, the Kullback-Leibler divergence is negated in all calculations.  
 
 - To compute sample taxon-based functional redundancy, we calculate the Kullback-Leibler divergence between the function vector
