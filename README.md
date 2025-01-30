@@ -1,7 +1,11 @@
 
 # FunRed
 
-R package for calculating functional redundancy measures of a single trait based on relative entropy
+
+R package for computing functional redundancy and functinoal interdependency measures for a single trait using relative entropy.  
+  
+Relative Entropy or the Kullback-Leibler divergence is calculated using the [`philentropy`](https://cran.r-project.org/package=philentropy) package.
+
 
 ## Installation
 
@@ -14,12 +18,12 @@ if (!requireNamespace("devtools", quietly = TRUE)) {
 }
 
 # Install the package
-devtools::install_github("faesslerd/FunRed")
+devtools::install_github("SysPsyHertel/FunRed")
 ```
 
 ## Functions
 
-### 1. fredundancy(abundance, functions, n_reference)
+### 1. fredundancy(functions, abundance, n_reference)
 
 Compute measures of functional redundancy and functional interdependency.
 
@@ -30,12 +34,12 @@ Compute measures of functional redundancy and functional interdependency.
 
 
 #### Returns
-- `sample_based`: A coefficient corresponding to taxon sample-based redundancy.
-- `reference_based`: A coefficient corresponding to taxon reference-based redundancy (optional, if n_reference is set).
-- `abundance_based`: A coefficient corresponding to abundance-based redundancy.
+- `sample_based`: A coefficient corresponding to taxon sample-based functional redundancy.
+- `reference_based`: A coefficient corresponding to taxon reference-based functional (optional, if n_reference is set).
+- `abundance_based`: A coefficient corresponding to abundance-based functional redundancy.
 - `interdependency`: A coefficient corresponding to functional interdependency.
 
-#### Example
+### Toy Example
 
 ```R
 functions <- c(0.8, 0.1, 0.05, 0.05, 0)
@@ -55,4 +59,25 @@ $interdependency
 [1] 0.1927448
 
 ```
+#### Description
+Note that, except when computing functional interdependency, the Kullback-Leibler divergence is negated in all calculations.  
 
+- To compute sample taxon-based functional redundancy, we calculate the Kullback-Leibler divergence between the function vector
+and a uniformly distributed vector of the same length as the number of species in a sample, i.e. the number of nonzero
+elements in the abundance vector.  
+In the toy example, we compute the Kullback-Leibler divergence for sample taxon-based
+redundancy between  `(0.8, 0.1, 0.05, 0.05, 0)` and `(1/5, 1/5, 1/5, 1/5, 1/5)`. 
+- For the calculation of reference taxon-based functional redundancy, the parameter `n_reference` corresponds to the total number of species
+in the reference that can perform the function. The nonzero values in the function vector remain unchanged, while zeros are
+added until its total length equals `n_reference`. Then, the Kullback-Leibler divergence is computed between this padded vector
+and a uniform distribution of the same length as `n_reference`.  
+In the toy example, we compute the Kullback-Leibler divergence for sample taxon-based redundancy between
+`(0.8, 0.1, 0.05, 0.05, 0, 0 ,0)` and `(1/7, 1/7, 1/7, 1/7, 1/7, 1/7, 1/7)`.
+- To compute abundance-based functional redundancy, we calculate the Kullback-Leibler divergence between the function vector and the abundance vector.  
+In the toy example, we compute the Kullback-Leibler divergence for abundance-based redundancy 
+between `(0.8, 0.1, 0.05, 0.05, 0)` and `(0.2, 0.1, 0.05, 0.05, 0.6)`.
+- For the computation of functional interdependency only non-zero values of the function vector are considered.
+For the abundance vector, only the abundances of species that have non-zero function are considered. The abundance
+vector is then divided by the sum of the restricted vector, such that its components sum up to 1.
+In the toy example, we compute the Kullback-Leibler divergence for sample functional interdependency between
+`(0.8, 0.1, 0.05, 0.05)` and `(0.2, 0.1, 0.05, 0.05)/(0.2+0.1+0.05+0.05)`.
