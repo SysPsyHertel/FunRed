@@ -1,8 +1,9 @@
+![Fancy logo](./dark.png#gh-dark-mode-only)
 
 # FunRed
 
 
-R package for computing functional redundancy and functinoal interdependency measures for a single trait using relative entropy.  
+R package for computing functional redundancy and functional interdependency measures for a single trait using relative entropy.  
   
 Relative Entropy or the Kullback-Leibler divergence is calculated using the [`philentropy`](https://cran.r-project.org/package=philentropy) package.
 
