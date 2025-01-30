@@ -1,6 +1,5 @@
 # FunRed
 
-
 **R package** for computing **functional redundancy** and **functional interdependency** measures for a single trait using relative entropy.  
   
 Relative Entropy or the Kullback-Leibler divergence is calculated using the [`philentropy`](https://cran.r-project.org/package=philentropy) package.
@@ -34,6 +33,7 @@ Compute measures of functional redundancy and functional interdependency.
 - `abundance`: A vector of non-zero abundances, corresponding to each species in the community.
 - `functions`: The paired vector of functions of the abundance vector. Needs to be the same length as the abundance vector.
 - `n_reference`: Integer value, corresponding to the number of species in the reference that can perform the function (optional).
+
 
 
 #### **Returns**
