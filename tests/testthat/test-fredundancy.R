@@ -1,8 +1,8 @@
 test_that("fredundancy computes redundancy measures", {
 
   # Test data
-  abundance <- c(0.2, 0.1, 0.05, 0.05, 0.6)
   functions <- c(0.8, 0.1, 0.05, 0.05, 0)
+  abundance <- c(0.2, 0.1, 0.05, 0.05, 0.6)
   n_reference <- 7
 
   # Expected results (manually obtained or precomputed)
@@ -14,7 +14,7 @@ test_that("fredundancy computes redundancy measures", {
   )
 
   # Call the function
-  actual <- fredundancy(abundance = abundance, functions = functions, n_reference = 7)
+  actual <- fredundancy(functions = functions, abundance = abundance, n_reference = 7)
 
   # Round both actual and expected values to 8 decimal places for consistency
   actual_rounded <- lapply(actual, function(x) round(x, 8))  # Round to 8 decimal places

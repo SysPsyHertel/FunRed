@@ -1,9 +1,9 @@
 #' Compute measures of functional redundancy and functional interdependency based on relative entropy
 #'
-#' @param abundance A vector of non-zero abundances, corresponding to each species in the community.
 #' @param functions The paired vector of functions for the abundance vector. Needs to be the same size as the abundance vector.
 #'                  The i-th component of \code{functions} corresponds to the i-th abundance of the species, encoded in the abundance vector.
 #'                  Gets normalized, such that the components sum up to 1 and its components correspond to relative frequencies. Might contain zeros.
+#' @param abundance A vector of non-zero abundances, corresponding to each species in the community.
 #' @param n_reference Optional value to compute reference-based redundancy. It is an integer value of the number of species in the reference
 #'                    that can perform the function.
 #'
