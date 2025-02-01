@@ -30,8 +30,8 @@ devtools::install_github("SysPsyHertel/FunRed")
 Compute measures of functional redundancy and functional interdependency.
 
 #### **Arguments**
-- `abundance`: A vector of non-zero abundances, corresponding to each species in the community. Gets normalized if the sum of the abundances is within
-#'                  the allowed tolerance (*1e-5*).
+- `abundance`: A vector of non-zero abundances representing each species in the community. The vector is checked to ensure the abundances sum to 1.
+              If they do not, the vector is normalized, provided the sum is within an acceptable tolerance (*|1 - sum(abundances)| < 1e-5*). If the sum falls outside this tolerance, an error message is returned.
 - `functions`: The paired vector of functions of the abundance vector. Needs to be the same length as the abundance vector.ets transformed into relative frequencies.
 - `n_reference`: Integer value, corresponding to the number of species in the reference that can perform the function (optional).
 
