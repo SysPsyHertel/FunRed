@@ -58,7 +58,7 @@ fredundancy <- function(functions, abundance, n_reference = NULL) {  # n_referen
   validate_abundance(abundance)
 
   # Sample-based redundancy
-  a_uniform_sample <- rep(1 / length(abundance), length(abundance))
+  a_uniform_sample <- rep(1 / sum(abundance>0), sum(abundance>0))
   x_sample <- rbind(functions, a_uniform_sample)
   sample_based <- calculate_kl_divergence(x_sample)
 
