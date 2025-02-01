@@ -2,8 +2,9 @@
 #'
 #' @param functions The paired vector of functions for the abundance vector. Needs to be the same size as the abundance vector.
 #'                  The i-th component of \code{functions} corresponds to the i-th abundance of the species, encoded in the abundance vector.
-#'                  Gets normalized, such that the components sum up to 1 and its components correspond to relative frequencies. Might contain zeros.
-#' @param abundance A vector of non-zero abundances, corresponding to each species in the community.
+#'                  Gets transformed into relative frequencies, such that the components sum up to 1 and its components correspond to relative frequencies. Might contain zeros.
+#' @param abundance A vector of non-zero abundances, corresponding to each species in the community. Gets normalized if the sum of the abundances is within
+#'                  the allowed tolerance (1e-5).
 #' @param n_reference Optional value to compute reference-based redundancy. It is an integer value of the number of species in the reference
 #'                    that can perform the function.
 #'
@@ -36,10 +37,21 @@ fredundancy <- function(functions, abundance, n_reference = NULL) {  # n_referen
 
 
   # Validate that abundance sums to 1
-  validate_abundance <- function(abundance, tolerance = 1e-6) {
-    if (abs(sum(abundance) - 1) > tolerance) {
-      stop("Error: Abundances do not sum up to 1 within the allowed tolerance!")
+  validate_abundance <- function(abundance, tolerance = 1e-5) {
+    total_abundance <- sum(abundance)
+
+    # Check if the sum is exactly 1
+    if (abs(total_abundance - 1) == 0) {
+      return(abundance)
     }
+
+    # Check if the sum is within the tolerance range
+    if (abs(total_abundance - 1) <= tolerance) {
+      abundance <- abundance / total_abundance
+      return(abundance)
+    }
+    # If sum is outside the tolerance range, stop with an error
+    stop("Abundances do not sum up to 1 within the allowed tolerance!")
   }
 
   # Helper function to calculate KL divergence and return the numeric result
@@ -55,21 +67,24 @@ fredundancy <- function(functions, abundance, n_reference = NULL) {  # n_referen
 
   # Normalize functions and check abundance
   functions <- normalize_vector(functions)
-  validate_abundance(abundance)
+  abundance <- validate_abundance(abundance)
+  functions_gz <- functions[functions > 0]  # Only functions > 0
+
 
   # Sample-based redundancy
   a_uniform_sample <- rep(1 / sum(abundance>0), sum(abundance>0))
-  x_sample <- rbind(functions, a_uniform_sample)
+  zero_sample <- rep(0, (sum(abundance>0))-length(functions_gz))  # Pad with zeros
+  functions_sample <- c(functions_gz, zero_sample)
+  x_sample <- rbind(functions_sample, a_uniform_sample)
   sample_based <- calculate_kl_divergence(x_sample)
 
   # Initialize reference-based redundancy as NULL (in case it's not calculated)
   reference_based <- NULL
 
   # Only calculate reference-based redundancy if n_reference is provided
-  functions_gz <- functions[functions > 0]  # Only functions > 0
   if (!is.null(n_reference)) {
-    zero_f <- rep(0, n_reference - length(functions_gz))  # Pad with zeros
-    functions_reference <- c(functions_gz, zero_f)
+    zero_reference <- rep(0, n_reference - length(functions_gz))  # Pad with zeros
+    functions_reference <- c(functions_gz, zero_reference)
     a_uniform_reference <- rep(1 / n_reference, n_reference)
     x_reference <- rbind(functions_reference, a_uniform_reference)
     reference_based <- calculate_kl_divergence(x_reference)
