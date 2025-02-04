@@ -4,7 +4,7 @@
 #'                  The i-th component of \code{functions} corresponds to the i-th abundance of the species, encoded in the abundance vector.
 #'                  Gets transformed into relative frequencies, such that the components sum up to 1 and its components correspond to relative frequencies. Might contain zeros.
 #' @param abundance A vector of non-zero abundances representing each species in the community. The vector is checked to ensure the abundances sum to 1.
-#'                    If they do not, the vector is normalized, provided the sum is within an acceptable tolerance (*|1 - sum(abundances)| < 1e-5*). If the sum falls outside this tolerance, an error message is returned.
+#'                    If they do not, the vector is normalized, provided the sum is within an acceptable tolerance (*|1 - sum(abundances)| < 1e-6*). If the sum falls outside this tolerance, an error message is returned.
 #' @param n_reference Optional value to compute reference-based redundancy. It is an integer value of the number of species in the reference
 #'                    that can perform the function.
 #'
@@ -37,7 +37,7 @@ fredundancy <- function(functions, abundance, n_reference = NULL) {  # n_referen
 
 
   # Validate that abundance sums to 1
-  validate_abundance <- function(abundance, tolerance = 1e-5) {
+  validate_abundance <- function(abundance, tolerance = 1e-6) {
     total_abundance <- sum(abundance)
 
     # Check if the sum is exactly 1
@@ -97,7 +97,12 @@ fredundancy <- function(functions, abundance, n_reference = NULL) {  # n_referen
   # Interdependency
   # Consider only abundances that have a function and normalize it that they sum up to 1
   abundance_I <- abundance[functions > 0]
-  abundance_I <- abundance_I/sum(abundance_I)
+  if(sum(abundance_I)==0){
+    abundance_I <- 0
+  } else {
+      abundance_I <- abundance_I/sum(abundance_I)
+
+  }
   x_interdependency <- rbind(functions_gz, abundance_I)
   interdependency <- calculate_kl_divergence(x_interdependency, negative = FALSE)
 
