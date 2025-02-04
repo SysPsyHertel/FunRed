@@ -13,7 +13,7 @@ The i-th component of \code{functions} corresponds to the i-th abundance of the 
 Gets transformed into relative frequencies, such that the components sum up to 1 and its components correspond to relative frequencies. Might contain zeros.}
 
 \item{abundance}{A vector of non-zero abundances representing each species in the community. The vector is checked to ensure the abundances sum to 1.
-              If they do not, the vector is normalized, provided the sum is within an acceptable tolerance (*|1 - sum(abundances)| < 1e-6*). If the sum falls outside this tolerance, an error message is returned.}
+              If they do not, the vector is normalized, provided the sum is within an acceptable tolerance (*|1 - sum(abundances)| < 1e-4*). If the sum falls outside this tolerance, an error message is returned.}
 
 \item{n_reference}{Optional value to compute reference-based redundancy. It is an integer value of the number of species in the reference
 that can perform the function.}
