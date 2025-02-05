@@ -30,7 +30,7 @@ A list containing:
 \description{
 Compute measures of functional redundancy and functional interdependency based on relative entropy.
 Relative Entropy is calculated using the *KL* function of the [`philentropy`](https://cran.r-project.org/package=philentropy) package
-with the following parameters: `test.na = TRUE` (to handle missing values), `unit = "log"` (to compute divergence using the natural logarithm), `est.prob = NULL` (indicating that empirical probabilities were used), and `epsilon = 1e-05` (a small constant used to avoid undefined log calculations caused by zero probabilities).
+with the following parameters: `test.na = TRUE` (to handle missing values), `unit = "log"` (to compute divergence using the natural logarithm), `est.prob = NULL` (a value to address cases when division by zero occurs).
 }
 \examples{
 abundance <- c(0.2, 0.1, 0.05, 0.05, 0.6)
