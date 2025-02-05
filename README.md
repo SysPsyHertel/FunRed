@@ -2,7 +2,8 @@
 
 **R package** for computing **functional redundancy** and **functional interdependency** measures for a single trait using relative entropy.  
   
-Relative Entropy or the Kullback-Leibler divergence is calculated using the *KL* function of the [`philentropy`](https://cran.r-project.org/package=philentropy) package.
+Relative Entropy is calculated using the *KL* function of the [`philentropy`](https://cran.r-project.org/package=philentropy) package
+with the following parameters: `test.na = TRUE` (to handle missing values), `unit = "log"` (to compute divergence using the natural logarithm), `est.prob = NULL` (indicating that empirical probabilities were used), and `epsilon = 1e-05` (a small constant used to avoid undefined log calculations caused by zero probabilities).
 
 ## Installation
 
@@ -30,7 +31,7 @@ Compute measures of functional redundancy and functional interdependency.
 
 #### **Arguments**
 - `abundance`: A vector of non-zero abundances representing each species in the community. The vector is checked to ensure the abundances sum to 1.
-              If they do not, the vector is normalized, provided the sum is within an acceptable tolerance (*|1 - sum(abundances)| < 1e-4*). If the sum falls outside this tolerance, an error message is returned.
+              If they do not, the vector is normalized, provided the sum is within an acceptable tolerance (*|1 - sum(abundances)| < 1e-5*). If the sum falls outside this tolerance, an error message is returned.
 - `functions`: The paired vector of functions of the abundance vector. Needs to be the same length as the abundance vector. Gets transformed into relative frequencies.
 - `n_reference`: Integer value, corresponding to the number of species in the reference that can perform the function (optional).
 
